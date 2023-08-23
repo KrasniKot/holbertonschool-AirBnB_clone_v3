@@ -6,11 +6,11 @@ from flask import jsonify
 from models import storage
 
 
-
 @app_views.route("/status")
 def status():
     """Returns a JSON string"""
     return jsonify({"status": "OK"})
+
 
 @app_views.route("/stats")
 def stats():
