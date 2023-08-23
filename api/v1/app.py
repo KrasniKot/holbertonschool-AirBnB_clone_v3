@@ -2,8 +2,9 @@
 """This module defines initializes the server"""
 
 from api.v1.views import app_views
-from flask import Blueprint, Flask
+from flask import Flask
 from models import storage
+from os import getenv
 
 app = Flask(__name__)
 
@@ -15,7 +16,9 @@ def close():
     """Calls storage.close() when server stops"""
     storage.close()
 
+
 if __name__ == "__main__":
-    # not if not defined
-    # not threaded
-    app.run(host="0.0.0.0", port="5000")
+    app.run(
+        host=getenv("HBNB_API_HOST"),
+        port=getenv("HBNB_API_PORT"),
+        threaded=True)
