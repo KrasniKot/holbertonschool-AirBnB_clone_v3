@@ -1,6 +1,8 @@
+#!/usr/bin/python3
+"""This module contains the routes for app_views"""
+
 from api.v1.views import app_views
 from flask import Flask, jsonify
-from models import storage
 
 
 @app_views.route("/status")
