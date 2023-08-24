@@ -20,6 +20,7 @@ def close(E):
 
 @app.errorhandler(404)
 def not_found(e):
+    """Handles 404 response; not found"""
     return make_response(jsonify({"error": "Not found"}), 404)
 
 
