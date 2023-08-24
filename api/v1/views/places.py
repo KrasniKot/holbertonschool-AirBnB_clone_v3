@@ -66,23 +66,23 @@ def create_place(city_id):
     return jsonify(new_place.to_dict()), 201
 
 
-@app_views.route("/places/<place_id>", mehtods=["PUT"])
+@app_views.route("/places/<place_id>", methods=["PUT"])
 def update_place(place_id):
     """Updates a Place object"""
     place = storage.get(Place, place_id)
     if not place:
         abort(404)
-
+    
     data = request.get_json()
     if not data:
         abort(400, {"error": "Not a JSON"})
-
+    
     # Ignore keys: id, user_id, city_id, created_at, updated_at
     ignored_keys = ['id', 'user_id', 'city_id', 'created_at', 'updated_at']
     for key, value in data.items():
         if key not in ignored_keys:
             setattr(place, key, value)
     place.save()
-
+    
     return jsonify(place.to_dict()), 200
-
+    
