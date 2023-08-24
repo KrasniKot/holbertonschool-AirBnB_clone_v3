@@ -6,6 +6,7 @@ Contains the TestDBStorageDocs and TestDBStorage classes
 from datetime import datetime
 import inspect
 import models
+from models import storage
 from models.engine import db_storage
 from models.amenity import Amenity
 from models.base_model import BaseModel
@@ -98,7 +99,7 @@ class TestFileStorage(unittest.TestCase):
     def test_count(self):
         """Tests count method"""
         user = User()
-        prevLen = len(DBStorage.all())
+        prevLen = len(storage.all())
         user.save()
-        crntLen = len(DBStorage.all())
+        crntLen = len(storage.all())
         self.assertEqual(prevLen + 1, crntLen)
