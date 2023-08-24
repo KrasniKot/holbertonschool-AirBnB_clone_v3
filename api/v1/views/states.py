@@ -15,7 +15,7 @@ def all_states():
 
     for state in states:
         state_list.append(state.to_dict())
-    return jsonify(state_list), 202
+    return jsonify(state_list)
 
 
 @app_views.route("/states/<state_id>", methods=["GET"])
@@ -24,5 +24,17 @@ def a_state(state_id):
     state = storage.get(State, state_id)
     if state:
         return jsonify(state.to_dict())
+    else:
+        abort(404)
+
+
+@app_views.route("/states/<state_id>", methods=["DELETE"])
+def del_a_state(state_id):
+    """Deletes a State object based on its id"""
+    state = storage.get(State, state_id)
+    if state:
+        storage.delete(state)
+        storage.save()
+        return jsonify({}), 200
     else:
         abort(404)
