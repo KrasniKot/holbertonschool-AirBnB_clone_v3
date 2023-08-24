@@ -22,6 +22,7 @@ def close(E):
 def not_found(e):
     return make_response(jsonify({"error": "Not found"}), 404)
 
+
 if __name__ == "__main__":
     app.run(
         host=getenv("HBNB_API_HOST"),
