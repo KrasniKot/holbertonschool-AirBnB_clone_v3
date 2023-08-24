@@ -19,7 +19,7 @@ def all_states():
 
 
 @app_views.route("/states/<state_id>", methods=["GET"])
-def a_state(state_id):
+def get_state(state_id):
     """Returns a State object based on its id"""
     state = storage.get(State, state_id)
     if state:
@@ -29,7 +29,7 @@ def a_state(state_id):
 
 
 @app_views.route("/states/<state_id>", methods=["DELETE"])
-def del_a_state(state_id):
+def delete_state(state_id):
     """Deletes a State object based on its id"""
     state = storage.get(State, state_id)
     if state:
@@ -41,32 +41,37 @@ def del_a_state(state_id):
 
 
 @app_views.route("/states", methods=["POST"])
-def make_a_state():
+def create_state():
     """Creates a State object"""
-    krgs = request.get_json()
+    data = request.get_json()
 
-    if not krgs:
-        abort(400, {"Not a JSON"})
-    if 'name' not in krgs:
-        abort(400, {"Missing name"})
+    if not data:
+        abort(400, {"error": "Not a JSON"})
+    if 'name' not in data:
+        abort(400, {"error": "Missing name"})
 
-    state = State(**krgs)
+    new_state = State(**data)
+    new_state.save()
+
+    return jsonify(new_state.to_dict()), 201
+
+
+@app_views.route("/states/<state_id>", methods=["PUT"])
+def update_state(state_id):
+    """Updates a State object"""
+    state = storage.get(State, state_id)
+    if not state:
+        abort(404)
+
+    data = request.get_json()
+    if not data:
+        abort(400, {"error": "Not a JSON"})
+
+    # Ignore keys: id, created_at, updated_at
+    ignored_keys = ['id', 'created_at', 'updated_at']
+    for key, value in data.items():
+        if key not in ignored_keys:
+            setattr(state, key, value)
     state.save()
 
-    return jsonify(state.to_dict()), 201
-
-
-@app_views.route("states/<state_id>", methods=["PUT"])
-def up_a_state(state_id):
-    """Updates a State object"""
-    obj = storage.get(State, state_id)
-    krgs = request.get_json()
-
-    if not obj:
-        abort(400, {"Not a JSON"})
-
-    for key, value in krgs.items():
-        setattr(obj, key, value)
-    obj.save()
-
-    return jsonify(obj.to_dict()), 200
+    return jsonify(state.to_dict()), 200
