@@ -47,7 +47,7 @@ def create_place(city_id):
     city = storate.get(City, city_id)
     if not city:
         abort(404)
-    
+
     data = request.get_json()
     if not data:
         abort(400, {"error": "Not a JSON"})
@@ -55,11 +55,11 @@ def create_place(city_id):
         abort(400, {"error": "Missing user_id"})
     if 'name' not in data:
         abort(400, {"error": "Missing name"})
-    
+
     user = storage.get(User, data['user_id'])
     if not user:
         abort(404)
-    
+
     new_place = Place(city_id=city_id, **data)
     new_place.save()
 
@@ -72,11 +72,11 @@ def update_place(place_id):
     place = storage.get(Place, place_id)
     if not place:
         abort(404)
-    
+
     data = request.get_json()
     if not data:
         abort(400, {"error": "Not a JSON"})
-    
+
     # Ignore keys: id, user_id, city_id, created_at, updated_at
     ignored_keys = ['id', 'user_id', 'city_id', 'created_at', 'updated_at']
     for key, value in data.items():
