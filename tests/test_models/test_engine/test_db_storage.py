@@ -100,6 +100,6 @@ class TestFileStorage(unittest.TestCase):
         """Tests count method"""
         user = User()
         prevLen = len(storage.all())
-        user.save()
+        storage.new(user)
         crntLen = len(storage.all())
         self.assertEqual(prevLen + 1, crntLen)
