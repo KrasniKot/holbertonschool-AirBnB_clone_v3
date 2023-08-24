@@ -71,7 +71,7 @@ def update_user(user_id):
     if not data:
         abort(400, {"error": "Not a JSON"})
 
-    #Ignores keys: id, email, createf_at, updated_at
+    # Ignores keys: id, email, createf_at, updated_at
     ignored_keys = ['id', 'email', 'created_at', 'updated_at']
     for key, value in data.items():
         if key not in ignored_keys:
