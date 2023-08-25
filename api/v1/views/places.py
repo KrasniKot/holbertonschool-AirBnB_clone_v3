@@ -11,6 +11,15 @@ from models.user import User
 from models import storage
 
 
+@app_views.route("/places", methods=["GET"])
+def get_places():
+    """Returns a JSON string"""
+    places_list = []
+    places = storage.all('Place').values()
+    for place in places:
+        places_list.append(place.to_dict())
+    return jsonify(places_list), 200
+
 @app_views.route("/cities/<city_id>/places", methods=["GET"])
 def places_of_city(city_id):
     """Returns a list of all Place objects in a City"""
@@ -18,23 +27,21 @@ def places_of_city(city_id):
     city = storage.get(City, city_id)
     if not city:
         abort(404)
-
+    
     for place in storage.all(Place).values():
-        if place.id == city_id:
+        if place.city_id == city_id:
             city_list.append(place.to_dict())
-
+    
     return jsonify(city_list)
-
-
+    
 @app_views.route("/places/<place_id>", methods=["GET"])
-def get_place(place_id):
-    """Returns a Place object based on its id"""
+def get_place_id(place_id):
+    """Returns a Place object based on: place_id"""
     place = storage.get(Place, place_id)
     if place:
-        return jsonify(place.to_dict())
+        return jsonify(place.to_dict()), 200
     else:
         abort(404)
-
 
 @app_views.route("/places/<place_id>", methods=["DELETE"])
 def delete_place(place_id):
@@ -67,7 +74,7 @@ def create_place(city_id):
     if not user:
         abort(404)
 
-    new_place = Place(city_id=city_id, **data)
+    new_place = Place(**data)
     new_place.save()
 
     return jsonify(new_place.to_dict()), 201
