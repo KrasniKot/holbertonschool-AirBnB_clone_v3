@@ -63,8 +63,8 @@ def new_review(place_id):
     return jsonify(review.to_dict()), 201
     
 
-@app_views.route("", methods=["PUT"])
-def up_review("", methods=["PU"]):
+@app_views.route("/api/v1/reviews/<review_id>", methods=["PUT"])
+def up_review(review_id):
     """Updates an existing review based in itrs id"""
     krgs = request.get_json()
     review = storage.get(Review, review_id)
