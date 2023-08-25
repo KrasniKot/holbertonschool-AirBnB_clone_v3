@@ -22,16 +22,16 @@ def get_reviews():
 @app_views.route("/places/<place_id>/reviews", methods=["GET"])
 def place_reviews(place_id):
     """Returns all the reviews for the given place_id"""
-    
+
     revs_list = []
-    
+
     if not storage.get(Place, place_id):
         abort(404)
-    
+
     for rev in storage.all(Review).values():
         if rev.place_id == place_id:
             revs_list.append(rev.to_dict())
-    
+
     return jsonify(revs_list), 200
 
 
@@ -88,7 +88,7 @@ def up_review(review_id):
     if not krgs:
         abort(400, {"Not a JSON"})
     for key, value in krgs.items():
-        if k == 'text':
+        if key == 'text':
             setattr(review, key, value)
             storage.save()
 
