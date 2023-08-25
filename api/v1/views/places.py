@@ -13,10 +13,17 @@ from models import storage
 
 @app_views.route("/cities/<city_id>/places", methods=["GET"])
 def places_of_city(city_id):
-    """Returns a json of all Place objects in a City"""
+    """Returns a list of all Place objects in a City"""
+    city_list = []
     city = storage.get(City, city_id)
     if not city:
         abort(404)
+
+    for place in storage.all(Place).values():
+        if place.id == city_id:
+            city_list.append(place.to_dict())
+
+    return jsonify(city_list)
 
 
 @app_views.route("/places/<place_id>", methods=["GET"])

@@ -22,3 +22,21 @@ def place_reviews(place_id):
             revs_list.append(rev.to_dict())
 
     return jsonify(revs_list)
+
+@app_views.route("/api/v1/reviews/<review_id>", methods=["GET"])
+def review(review_id):
+    """Returns a review based on its id"""
+    review = storage.get(Review, review_id)
+    if not review:
+        abort(404)
+    return jsonify(review.to_dict())
+
+@app_views.route("/api/v1/reviews/<review_id>", methods=["DELETE"])
+def del_review(review_id):
+    """Deletes a review based on its id"""
+    review = storage.get(Review, review_id)
+    if not review:
+        abort(404)
+    storage.delete(review)
+    storage.save()
+    return jsonify({}), 200
