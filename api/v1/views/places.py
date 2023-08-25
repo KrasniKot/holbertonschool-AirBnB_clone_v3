@@ -20,6 +20,7 @@ def get_places():
         places_list.append(place.to_dict())
     return jsonify(places_list), 200
 
+
 @app_views.route("/cities/<city_id>/places", methods=["GET"])
 def places_of_city(city_id):
     """Returns a list of all Place objects in a City"""
@@ -27,13 +28,14 @@ def places_of_city(city_id):
     city = storage.get(City, city_id)
     if not city:
         abort(404)
-    
+
     for place in storage.all(Place).values():
         if place.city_id == city_id:
             city_list.append(place.to_dict())
-    
+
     return jsonify(city_list)
-    
+
+
 @app_views.route("/places/<place_id>", methods=["GET"])
 def get_place_id(place_id):
     """Returns a Place object based on: place_id"""
@@ -42,6 +44,7 @@ def get_place_id(place_id):
         return jsonify(place.to_dict()), 200
     else:
         abort(404)
+
 
 @app_views.route("/places/<place_id>", methods=["DELETE"])
 def delete_place(place_id):
@@ -58,7 +61,7 @@ def delete_place(place_id):
 @app_views.route("/cities/<city_id>/places", methods=["POST"])
 def create_place(city_id):
     """Creates a Place object"""
-    city = storate.get(City, city_id)
+    city = storage.get(City, city_id)
     if not city:
         abort(404)
 
@@ -74,6 +77,7 @@ def create_place(city_id):
     if not user:
         abort(404)
 
+    data["city_id"] = city_id
     new_place = Place(**data)
     new_place.save()
 
