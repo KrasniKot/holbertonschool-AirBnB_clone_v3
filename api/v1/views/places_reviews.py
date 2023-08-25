@@ -1,4 +1,4 @@
-#!/usr/nin/python3
+#!/usr/bin/python3
 """This module contains the view for places_review"""
 
 from api.v1.views import app_views
