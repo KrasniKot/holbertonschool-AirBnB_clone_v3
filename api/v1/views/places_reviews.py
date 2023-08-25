@@ -35,7 +35,7 @@ def place_reviews(place_id):
     return jsonify(revs_list), 200
 
 
-@app_views.route("/api/v1/reviews/<review_id>", methods=["GET"])
+@app_views.route("/reviews/<review_id>", methods=["GET"])
 def review(review_id):
     """Returns a review based on its id"""
     review = storage.get(Review, review_id)
@@ -44,7 +44,7 @@ def review(review_id):
     return jsonify(review.to_dict())
 
 
-@app_views.route("/api/v1/reviews/<review_id>", methods=["DELETE"])
+@app_views.route("/reviews/<review_id>", methods=["DELETE"])
 def del_review(review_id):
     """Deletes a review based on its id"""
     review = storage.get(Review, review_id)
@@ -78,7 +78,7 @@ def create_review(place_id):
     return jsonify(rev.to_dict()), 201
 
 
-@app_views.route("/api/v1/reviews/<review_id>", methods=["PUT"])
+@app_views.route("/reviews/<review_id>", methods=["PUT"])
 def up_review(review_id):
     """Updates an existing review based in itrs id"""
     krgs = request.get_json()
@@ -88,7 +88,6 @@ def up_review(review_id):
     if not krgs:
         abort(400, {"Not a JSON"})
     for key, value in krgs.items():
-        if key == 'text':
             setattr(review, key, value)
             storage.save()
 

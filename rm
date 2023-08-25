@@ -1,0 +1,3 @@
+#!/bin/bash
+find . -name __pycach* -exec rm -rf {} \;
+find . -name .*swp -exec rm -rf {} \;
