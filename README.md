@@ -182,7 +182,88 @@ State objects: 5
 First state: [State] (af14c85b-172f-4474-8a30-d4ec21f9795e) {'updated_at': datetime.datetime(2017, 4, 13, 17, 10, 22, 378824), 'name': 'Arizona', 'id': 'af14c85b-172f-4474-8a30-d4ec21f9795e', 'created_at': datetime.datetime(2017, 4, 13, 17, 10, 22, 378763)}
 guillaume@ubuntu:~/AirBnB_v3$ 
 ```
-
+#### An API:
+Routes:
+```
+Endpoint                   Methods  Rule
+-------------------------  -------  ---------------------------------
+app_views.all_amenities    GET      /api/v1/amenities
+app_views.all_states       GET      /api/v1/states
+app_views.all_users        GET      /api/v1/users
+app_views.cities_of_state  GET      /api/v1/states/<state_id>/cities
+app_views.create_amenity   POST     /api/v1/amenities
+app_views.create_city      POST     /api/v1/states/<state_id>/cities
+app_views.create_place     POST     /api/v1/cities/<city_id>/places
+app_views.create_review    POST     /api/v1/places/<place_id>/reviews
+app_views.create_state     POST     /api/v1/states
+app_views.create_user      POST     /api/v1/users
+app_views.del_review       DELETE   /api/v1/reviews/<review_id>
+app_views.delete_amenity   DELETE   /api/v1/amenities/<amenity_id>
+app_views.delete_city      DELETE   /api/v1/cities/<city_id>
+app_views.delete_place     DELETE   /api/v1/places/<place_id>
+app_views.delete_state     DELETE   /api/v1/states/<state_id>
+app_views.delete_user      DELETE   /api/v1/users/<user_id>
+app_views.get_amenity      GET      /api/v1/amenities/<amenity_id>
+app_views.get_city         GET      /api/v1/cities/<city_id>
+app_views.get_place_id     GET      /api/v1/places/<place_id>
+app_views.get_places       GET      /api/v1/places
+app_views.get_reviews      GET      /api/v1/reviews
+app_views.get_state        GET      /api/v1/states/<state_id>
+app_views.get_user         GET      /api/v1/users/<user_id>
+app_views.place_reviews    GET      /api/v1/places/<place_id>/reviews
+app_views.places_of_city   GET      /api/v1/cities/<city_id>/places
+app_views.review           GET      /api/v1/reviews/<review_id>
+app_views.stats            GET      /api/v1/stats
+app_views.status           GET      /api/v1/status
+app_views.up_review        PUT      /api/v1/reviews/<review_id>
+app_views.update_amenity   PUT      /api/v1/amenities/<amenity_id>
+app_views.update_city      PUT      /api/v1/cities/<city_id>
+app_views.update_place     PUT      /api/v1/places/<place_id>
+app_views.update_state     PUT      /api/v1/states/<state_id>
+app_views.update_user      PUT      /api/v1/users/<user_id>
+static                     GET      /static/<path:filename>
+```
+##### Examples:
+```
+guillaume@ubuntu:~/AirBnB_v3$ HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db HBNB_API_HOST=0.0.0.0 HBNB_API_PORT=5000 python3 -m api.v1.app
+ * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+...
+```
+In another window:
+```
+guillaume@ubuntu:~/AirBnB_v3$ curl -X GET http://0.0.0.0:5000/api/v1/states/not_an_id/cities/
+{
+  "error": "Not found"
+}
+guillaume@ubuntu:~/AirBnB_v3$ 
+guillaume@ubuntu:~/AirBnB_v3$ curl -X GET http://0.0.0.0:5000/api/v1/states/2b9a4627-8a9e-4f32-a752-9a84fa7f4efd/cities
+[
+  {
+    "__class__": "City", 
+    "created_at": "2017-03-25T02:17:06", 
+    "id": "1da255c0-f023-4779-8134-2b1b40f87683", 
+    "name": "New Orleans", 
+    "state_id": "2b9a4627-8a9e-4f32-a752-9a84fa7f4efd", 
+    "updated_at": "2017-03-25T02:17:06"
+  }, 
+  {
+    "__class__": "City", 
+    "created_at": "2017-03-25T02:17:06", 
+    "id": "45903748-fa39-4cd0-8a0b-c62bfe471702", 
+    "name": "Lafayette", 
+    "state_id": "2b9a4627-8a9e-4f32-a752-9a84fa7f4efd", 
+    "updated_at": "2017-03-25T02:17:06"
+  }, 
+  {
+    "__class__": "City", 
+    "created_at": "2017-03-25T02:17:06", 
+    "id": "e4e40a6e-59ff-4b4f-ab72-d6d100201588", 
+    "name": "Baton rouge", 
+    "state_id": "2b9a4627-8a9e-4f32-a752-9a84fa7f4efd", 
+    "updated_at": "2017-03-25T02:17:06"
+  }
+]
+```
 
 ## Bugs
 No known bugs at this time. 
