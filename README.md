@@ -19,7 +19,7 @@ The console is the first segment of the AirBnB project at Holberton School that 
 * [License](#license)
 
 ## Environment
-This project is interpreted/tested on Ubuntu 14.04 LTS using python3 (version 3.4.3)
+This project is interpreted/compiled on Ubuntu 20.04 LTS using python3 (version 3.8.5)
 
 ## Installation
 * Clone this repository: `git clone "https://github.com/alexaorrico/AirBnB_clone.git"`
@@ -150,6 +150,40 @@ EOF  all  create  destroy  help  quit  show  update
 (hbnb) quit
 ```
 
+## Part 3 of Airbnb:
+### Description:
+During this part of the project the following updates were made:
+#### New functions get() and count() and their unittests:
+* get(): for both FileStorage and DBStorage gets the object that matches the given class and id;
+* count(): for both  FileStorage and DBStorage counts all the objects that matches the given class (optional), otherwise will count all the existing objects.
+```
+guillaume@ubuntu:~/AirBnB_v3$ cat test_get_count.py
+#!/usr/bin/python3
+""" Test .get() and .count() methods
+"""
+from models import storage
+from models.state import State
+
+print("All objects: {}".format(storage.count()))
+print("State objects: {}".format(storage.count(State)))
+
+first_state_id = list(storage.all(State).values())[0].id
+print("First state: {}".format(storage.get(State, first_state_id)))
+
+guillaume@ubuntu:~/AirBnB_v3$
+guillaume@ubuntu:~/AirBnB_v3$ HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db ./test_get_count.py 
+All objects: 1013
+State objects: 27
+First state: [State] (f8d21261-3e79-4f5c-829a-99d7452cd73c) {'name': 'Colorado', 'updated_at': datetime.datetime(2017, 3, 25, 2, 17, 6), 'created_at': datetime.datetime(2017, 3, 25, 2, 17, 6), '_sa_instance_state': <sqlalchemy.orm.state.InstanceState object at 0x7fc0103a8e80>, 'id': 'f8d21261-3e79-4f5c-829a-99d7452cd73c'}
+guillaume@ubuntu:~/AirBnB_v3$
+guillaume@ubuntu:~/AirBnB_v3$ ./test_get_count.py 
+All objects: 19
+State objects: 5
+First state: [State] (af14c85b-172f-4474-8a30-d4ec21f9795e) {'updated_at': datetime.datetime(2017, 4, 13, 17, 10, 22, 378824), 'name': 'Arizona', 'id': 'af14c85b-172f-4474-8a30-d4ec21f9795e', 'created_at': datetime.datetime(2017, 4, 13, 17, 10, 22, 378763)}
+guillaume@ubuntu:~/AirBnB_v3$ 
+```
+
+
 ## Bugs
 No known bugs at this time. 
 
@@ -159,6 +193,6 @@ Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://tw
 
 Second part of Airbnb: Joann Vuong
 
-Third part of Airbnb: Emanuel Trias
+Third part of Airbnb: Robert Aguerrebere & Emanuel Trias
 ## License
 Public Domain. No copy write protection. 
